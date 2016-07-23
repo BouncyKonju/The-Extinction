@@ -10,6 +10,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import com.konju.extinction.graphics.Renderer;
+import com.konju.extinction.system.Keyboard;
 
 public class Main extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -23,6 +24,7 @@ public class Main extends Canvas implements Runnable {
 	int[] pixels;
 	
 	Renderer r;
+	Keyboard k;
 	
 	private boolean running;
 	
@@ -33,6 +35,7 @@ public class Main extends Canvas implements Runnable {
 		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
 		
 		r = new Renderer(width, height, pixels);
+		k = new Keyboard();
 		
 		window = new JFrame();
 		window.setTitle("The Extinction");
@@ -41,6 +44,8 @@ public class Main extends Canvas implements Runnable {
 		window.setResizable(false);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
+		
+		addKeyListener(k);
 		
 		setPreferredSize(size);
 	}
@@ -62,6 +67,7 @@ public class Main extends Canvas implements Runnable {
 	
 	@Override
 	public void run() {
+		requestFocus();
 		while (running) {
 			update();
 			render();
@@ -87,7 +93,6 @@ public class Main extends Canvas implements Runnable {
 	}
 
 	private void update() {
-		
 	}
 
 	public static void main(String[] args) {

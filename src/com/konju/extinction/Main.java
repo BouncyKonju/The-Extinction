@@ -9,7 +9,7 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
-import com.konju.extinction.graphics.Renderer;
+import com.konju.extinction.graphics.*;
 import com.konju.extinction.system.Keyboard;
 
 public class Main extends Canvas implements Runnable {
@@ -25,6 +25,7 @@ public class Main extends Canvas implements Runnable {
 	
 	Renderer r;
 	Keyboard k;
+	Camera c;
 	
 	private boolean running;
 	
@@ -34,7 +35,8 @@ public class Main extends Canvas implements Runnable {
 		img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
 		
-		r = new Renderer(width, height, pixels);
+		c = new Camera(0, 0);
+		r = new Renderer(width, height, pixels, c);
 		k = new Keyboard();
 		
 		window = new JFrame();
@@ -68,9 +70,29 @@ public class Main extends Canvas implements Runnable {
 	@Override
 	public void run() {
 		requestFocus();
+		
+		long lastTime = System.nanoTime();
+		long timer = System.currentTimeMillis();
+		final double ns = 1_000_000_000.0 / 60.0;
+		double delta = 0;
+		int fps = 0;
 		while (running) {
-			update();
+			long now = System.nanoTime();
+			delta += (now - lastTime) / ns;
+			lastTime = now;
+			
+			while (delta >= 1) {
+				update();
+				delta--;
+			}
 			render();
+			fps++;
+			
+			while (System.currentTimeMillis() - timer > 1000) {
+				timer += 1000;
+				System.out.println("FPS: " + fps);
+				fps = 0;
+			}
 		}
 	}
 
@@ -93,6 +115,22 @@ public class Main extends Canvas implements Runnable {
 	}
 
 	private void update() {
+		if (Keyboard.keys[Keyboard.K_W]) { 
+			c.move(0, -5);
+			window.setLocation(window.getX(), window.getY() - 5);
+		}
+		if (Keyboard.keys[Keyboard.K_A]) {
+			c.move(-5, 0);
+			window.setLocation(window.getX() - 5, window.getY());
+		}
+		if (Keyboard.keys[Keyboard.K_S]) {
+			c.move(0, 5);
+			window.setLocation(window.getX(), window.getY() + 5);
+		}
+		if (Keyboard.keys[Keyboard.K_D]) {
+			c.move(5, 0);
+			window.setLocation(window.getX() + 5, window.getY());
+		}
 	}
 
 	public static void main(String[] args) {

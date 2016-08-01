@@ -1,0 +1,1 @@
+-Alpha pixels are in color 0xff00ff (perfect purple)

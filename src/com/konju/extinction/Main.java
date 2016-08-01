@@ -9,7 +9,9 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
-import com.konju.extinction.graphics.*;
+import com.konju.extinction.graphics.Camera;
+import com.konju.extinction.graphics.Renderer;
+import com.konju.extinction.system.ImageReader;
 import com.konju.extinction.system.Keyboard;
 
 public class Main extends Canvas implements Runnable {
@@ -22,6 +24,7 @@ public class Main extends Canvas implements Runnable {
 	
 	BufferedImage img;
 	int[] pixels;
+	int[] testImage;
 	
 	Renderer r;
 	Keyboard k;
@@ -34,6 +37,7 @@ public class Main extends Canvas implements Runnable {
 		
 		img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
+		testImage = ImageReader.readImage("res/Test.png");
 		
 		c = new Camera(0, 0);
 		r = new Renderer(width, height, pixels, c);
@@ -106,6 +110,13 @@ public class Main extends Canvas implements Runnable {
 		r.clear();
 		r.tRender();
 		
+		for (int y = 0; y < 128; y++) {
+			for (int x = 0; x < 128; x++) {
+				if (testImage[x / 8 + y / 8 * 16] == 0xffff00ff) continue;
+				pixels[x + y * width] = testImage[(x / 8) + (y / 8) * 16];
+			}
+		}
+		
 		Graphics g = bs.getDrawGraphics();
 		
 		g.drawImage(img, 0, 0, width, height, null);
@@ -117,19 +128,15 @@ public class Main extends Canvas implements Runnable {
 	private void update() {
 		if (Keyboard.keys[Keyboard.K_W]) { 
 			c.move(0, -5);
-			window.setLocation(window.getX(), window.getY() - 5);
 		}
 		if (Keyboard.keys[Keyboard.K_A]) {
 			c.move(-5, 0);
-			window.setLocation(window.getX() - 5, window.getY());
 		}
 		if (Keyboard.keys[Keyboard.K_S]) {
 			c.move(0, 5);
-			window.setLocation(window.getX(), window.getY() + 5);
 		}
 		if (Keyboard.keys[Keyboard.K_D]) {
 			c.move(5, 0);
-			window.setLocation(window.getX() + 5, window.getY());
 		}
 	}
 

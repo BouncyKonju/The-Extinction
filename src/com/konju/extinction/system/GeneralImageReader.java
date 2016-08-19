@@ -6,9 +6,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class ImageReader {
+public class GeneralImageReader {
 	
-	private ImageReader() {}
+	private GeneralImageReader() {}
 	
 	public static int[] readImage(String path) {
 		int[] result;

@@ -9,8 +9,9 @@ public class Renderer {
 	int width, height;
 	Random r = new Random();
 	
+	protected Camera cam;
+	
 	private int tiles[];
-	private Camera cam;
 	
 	public Renderer(int width, int height, int[] pixels, Camera camera) {
 		this.width = width;
@@ -38,6 +39,20 @@ public class Renderer {
 				int xt = x + cam.x;
 				int tileindex = ((xt >> 4) & 7) + ((yt >> 4) & 7) * 8;
 				pixels[x + y * width] = tiles[tileindex];
+			}
+		}
+	}
+	
+	public void renderSprite(int x, int y, Sprite data) {
+		x -= cam.x;
+		y -= cam.y;
+		for (int y0 = 0; y0 < data.width; y0++) {
+			int y1 = y + y0;
+			for (int x0 = 0; x0 < data.width; x0++) {
+				int x1 = x + x0;
+				if (x1 < -data.width || x1 >= width || y1 < 0 || y1 >= width) break;
+				if (x1 < 0) x1 = 0;
+				pixels[x1 + y1 * width] = data.pixels[x0 + y0 * data.width];
 			}
 		}
 	}

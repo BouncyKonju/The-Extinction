@@ -4,6 +4,8 @@ public class ColorTools {
 	
 	private ColorTools() {}
 	
+	// This method doesn't work correctly.
+	// If you have any idea why, let me know.
 	@Deprecated
 	public static int getAlpha(int col) {
 		return (col & 0xff000000) >> 24;

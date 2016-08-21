@@ -9,6 +9,7 @@ public class Keyboard implements KeyListener {
 	public static final int K_A = KeyEvent.VK_A;
 	public static final int K_S = KeyEvent.VK_S;
 	public static final int K_D = KeyEvent.VK_D;
+	public static final int K_ESC = KeyEvent.VK_ESCAPE;
 	
 	public static boolean[] keys = new boolean[1024];
 

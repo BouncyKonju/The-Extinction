@@ -17,7 +17,8 @@ import com.konju.extinction.system.Keyboard;
 public class Main extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 	
-	public static final int width = 960, height = 540;
+	public static final int WIDTH = 960, HEIGHT = 540;
+	public static int ZOOM_LEVEL = 2; //TODO: Add change option
 	
 	private Thread t;
 	private JFrame window;
@@ -33,13 +34,13 @@ public class Main extends Canvas implements Runnable {
 	private boolean running;
 	
 	public Main() {
-		Dimension size = new Dimension(width, height);
+		Dimension size = new Dimension(WIDTH, HEIGHT);
 		
-		img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		img = new BufferedImage(WIDTH / ZOOM_LEVEL, HEIGHT / ZOOM_LEVEL, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
 		
 		c = new Camera(0, 0);
-		r = new Renderer(width, height, pixels, c);
+		r = new Renderer(WIDTH / ZOOM_LEVEL, HEIGHT / ZOOM_LEVEL, pixels, c);
 		k = new Keyboard();
 		test = new Map("res/map.png");
 		
@@ -113,7 +114,7 @@ public class Main extends Canvas implements Runnable {
 		
 		Graphics g = bs.getDrawGraphics();
 		
-		g.drawImage(img, 0, 0, width, height, null);
+		g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);
 		
 		g.dispose();
 		bs.show();
@@ -131,6 +132,9 @@ public class Main extends Canvas implements Runnable {
 		}
 		if (Keyboard.keys[Keyboard.K_D]) {
 			c.move(5, 0);
+		}
+		if (Keyboard.keys[Keyboard.K_ESC]) {
+			System.exit(0);
 		}
 	}
 

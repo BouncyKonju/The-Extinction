@@ -32,17 +32,6 @@ public class Renderer {
 		}
 	}
 	
-	public void tRender() {
-		for (int y = 0; y < height; y++) {
-			int yt = y + cam.y;
-			for (int x = 0; x < width; x++) {
-				int xt = x + cam.x;
-				int tileindex = ((xt >> 4) & 7) + ((yt >> 4) & 7) * 8;
-				pixels[x + y * width] = tiles[tileindex];
-			}
-		}
-	}
-	
 	public void renderSprite(int x, int y, Sprite data) {
 		x -= cam.x;
 		y -= cam.y;

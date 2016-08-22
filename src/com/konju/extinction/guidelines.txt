@@ -1,1 +1,5 @@
 -Alpha pixels are in color 0xff00ff (perfect purple)
+-004cff water
+-009b0c grass
+-994f00 brick
+-ffde28 sand

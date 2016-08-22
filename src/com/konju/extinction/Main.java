@@ -109,7 +109,6 @@ public class Main extends Canvas implements Runnable {
 		}
 		
 		r.clear();
-		//r.tRender();
 		test.render(r);
 		
 		Graphics g = bs.getDrawGraphics();
@@ -123,13 +122,13 @@ public class Main extends Canvas implements Runnable {
 	private void update() {
 		if (Keyboard.keys[Keyboard.K_W]) { 
 			c.move(0, -5);
-		}
+		} 
 		if (Keyboard.keys[Keyboard.K_A]) {
 			c.move(-5, 0);
 		}
 		if (Keyboard.keys[Keyboard.K_S]) {
 			c.move(0, 5);
-		}
+		} 
 		if (Keyboard.keys[Keyboard.K_D]) {
 			c.move(5, 0);
 		}

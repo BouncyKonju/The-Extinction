@@ -17,12 +17,10 @@ public class Map {
 		data = new Sprite[width * height];
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				// 004cff water
-				// 009b0c grass
-				// 994f00 brick
 				if (tmpdata[x + y * width] == 0xff009b0c) data[x + y * width] = Sprite.GRASS;
 				else if (tmpdata[x + y * width] == 0xff004cff) data[x + y * width] = Sprite.WATER;
 				else if (tmpdata[x + y * width] == 0xff994f00) data[x + y * width] = Sprite.BRICK;
+				else if (tmpdata[x + y * width] == 0xffffde28) data[x + y * width] = Sprite.SSAND;
 				else data[x + y * width] = Sprite.GRASS;
 			}
 		}
@@ -55,7 +53,7 @@ public class Map {
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
 				try {
-					data[x + y * width].render(x, y, render); 
+					render.renderSprite(x << 4, y <<4, data[x + y * width]);
 				} catch (ArrayIndexOutOfBoundsException e) {
 					continue;
 				}
